@@ -1,0 +1,15 @@
+<h1>Files</h1>
+<ul>
+  {{#each model as |file|}}
+    <li>
+      {{file.sha}}
+      {{file.filename}}
+      {{file.status}}
+      {{file.additions}}
+      {{file.deletions}}
+      {{file.changes}}
+      {{file.patch}}
+    </li>
+  {{/each}}
+</ul>
+{{outlet}}

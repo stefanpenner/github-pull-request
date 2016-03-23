@@ -1,0 +1,32 @@
+<h1>{{model.title}}</h1>
+<nav class="tabnav-tabs">
+  {{#link-to 'pull.conversation' model.number }}
+      {{octicon-comment-discussion}}
+      Conversation
+
+      <span id="conversation_tab_counter" class="counter">
+        {{model.comments}}
+      </span>
+  {{/link-to}}
+
+  {{#link-to 'pull.commits' model.number }}
+      {{octicon-git-commit}}
+      Commits
+
+      <span id="commits_tab_counter" class="counter">
+        {{model.commits}}
+      </span>
+  {{/link-to}}
+
+  {{#link-to 'pull.files' model.number }}
+      {{octicon-diff}}
+      Files changed
+
+      <span id="files_tab_counter" class="counter">
+        {{model.changed_files}}
+      </span>
+  {{/link-to}}
+</nav>
+{{model.body}}
+{{outlet}}
+

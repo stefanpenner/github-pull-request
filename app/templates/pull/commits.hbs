@@ -1,0 +1,16 @@
+<h1>Commits</h1>
+<ul>
+  {{#each model as |commit|}}
+    <li>
+      {{commit.sha}}
+      {{commit.commit}}
+      {{commit.url}}
+      {{commit.html_url}}
+      {{commit.comments_url}}
+      {{commit.author}}
+      {{commit.committer}}
+      {{commit.parents}}
+    </li>
+  {{/each}}
+</ul>
+{{outlet}}

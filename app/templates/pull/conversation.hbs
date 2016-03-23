@@ -1,0 +1,13 @@
+<h1>Conversation</h1>
+<ul>
+  {{#each model as |comment|}}
+  <li>
+    <img alt="{{comment.user.login}}"
+         class="timeline-comment-avatar"
+         height="48"
+         src="https://avatars0.githubusercontent.com/u/{{comment.user.id}}?v=3&amp;s=96" width="48">
+    {{comment.body}}
+  </li>
+  {{/each}}
+</ul>
+{{outlet}}
