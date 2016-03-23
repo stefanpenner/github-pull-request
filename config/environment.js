@@ -1,11 +1,15 @@
 /* jshint node: true */
 
+if (!process.env.GITHUB_TOKEN) {
+  throw new Error('the environment variable GITHUB_TOKEN must be set');
+}
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'github-pull-request',
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
+    github_token: process.env.GITHUB_TOKEN,
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
