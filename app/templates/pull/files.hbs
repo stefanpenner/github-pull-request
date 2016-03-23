@@ -8,7 +8,7 @@
       {{file.additions}}
       {{file.deletions}}
       {{file.changes}}
-      {{file.patch}}
+      {{html-safe-diff file.patch}}
     </li>
   {{/each}}
 </ul>
