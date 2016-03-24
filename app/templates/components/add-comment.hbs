@@ -1,0 +1,6 @@
+<form onsubmit={{action "saveComment" state.value}}>
+  <textarea value={{state.value}}
+            oninput={{action (mut state.value) value="target.value"}} />
+  {{state.value}}
+  <button>Add Comment</button>
+</form>
