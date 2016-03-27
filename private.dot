@@ -1,7 +1,7 @@
 digraph ethane  {
     labelloc="t";
     ratio = 0.4;
-    label="Where should the state live? ...\n\n";
+    label="Should the state be hidden? ...\n\n";
     fontsize =24;
 
     node[fontname="a song for jennifer"];
@@ -23,7 +23,7 @@ digraph ethane  {
     a_no -> b_yn;
     b_yn:f1 -> a_no [ style = dotted constraint = true labeljust = "l" penwidth = 0.5 label = "  consider the more specific object"];
 
-    final [shape = "box" shape = box3d fontsize = 18 label = "  Sounds like the right place!  " ];
+    b_no [shape = "box" shape = box3d fontsize = 18 label = "  Sounds like the right place!  " ];
 
-    b_yn:f0 -> final;
+    b_yn:f0 -> b_no;
 }
