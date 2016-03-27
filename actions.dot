@@ -4,27 +4,27 @@ digraph ethane  {
     label="Where should the action be handled? ...\n\n";
     fontsize =24;
 
-    node[fontname="a song for jennifer"];
+    node [ fontname="a song for jennifer" ];
+    node [ shape = box ] a a_yes;
+    node [ shape = Mrecord style = filled ] a_yn b_yn;
 
-    a     [ shape = "box" shape = box label = "is the current object an ancestor to all the required data?" ];
+    a [ label = "is the current object an ancestor to all the required data?" ];
 
-    node[shape=record]
-    a_yn [label="<f0>yes |<f1> no" shape = Mrecord style = filled ];
+    a_yn [ label="<f0>yes |<f1> no" ]
 
     a -> a_yn;
 
     a_yn:f0 -> a_yes
-    a_yn:f1 -> a    [ style = dotted constraint = true labeljust = "l" penwidth = 0.5 label = "  consider its parent" ];
+    a_yn:f1 -> a    [ style = dotted constraint = false labeljust = "l" penwidth = 0.5 label = "  consider its parent" ];
 
-    a_yes [ shape = "box" shape = box label = "is there a object with less responsibility?" ];
+    a_yes [ label = "is there a object with less responsibility?" ];
 
-    node[shape=record]
-    b_yn [label="<f0> no |<f1> yes" shape = Mrecord style = filled];
+    b_yn [ label="<f0> no |<f1> yes" ]
 
     a_yes -> b_yn;
 
-    final [shape = "box" shape = box3d fontsize = 18 label = "  Sounds like the right place!  " ];
+    final [ shape = box3d fontsize = 18 label = "  Sounds like the right place!  " ];
 
-    b_yn:f1 -> a [  style = dotted constraint = true labeljust = "l" penwidth = 0.5 label = "consider it" ]
+    b_yn:f1 -> a [ style = dotted constraint = false labeljust = "l" penwidth = 0.5 label = "  consider it the object with less responsibility" ]
     b_yn:f0 -> final;
 }

@@ -1,0 +1,23 @@
+strict digraph ethane  {
+  labelloc="t";
+  ratio = 0.6;
+  label="A button\n\n"
+    fontsize =24;
+  splines=line;
+  node[fontname="a song for jennifer"];
+
+  rankdir=LR;
+
+  subgraph cluster_0 {
+    style=filled;
+    color=lightgrey;
+    node [style=filled,color=white];
+    active -> loading -> active [ constraint = false ]
+    label =""
+  }
+
+  node [ style = dotted ]
+  disabled;
+
+  active -> disabled -> active [ penwidth = 0.1]
+}

@@ -1,29 +1,21 @@
 digraph ethane  {
     labelloc="t";
     ratio = 0.4;
-    label="Should the state be hidden? ...\n\n";
+    label="Should the state be hidden to the object? ...\n\n"
     fontsize =24;
 
     node[fontname="a song for jennifer"];
 
-    a     [ shape = "box" shape = box label = "does the state live longer?" ];
-    a_no  [ shape = "box" shape = box label = "is there a more specific object?" ];
+    a [ shape = "box" shape = box label = "does the object holding the state know about it?" ];
 
     node[shape=record]
-    a_yn [label="<f0>no |<f1> yes" shape = Mrecord style = filled ];
+    a_yn [label="<f0>yes |<f1> no" shape = Mrecord style = filled ];
 
     a -> a_yn;
 
-    a_yn:f0 -> a_no;
-    a_yn:f1 -> a    [ style = dotted constraint = true labeljust = "l" penwidth = 0.5 label = "  consider the parent" ];
+    yes [shape = "box" shape = box3d fontsize = 18 label = "  It shouldn NOT be hidden!  " ];
+    no  [shape = "box" shape = box3d fontsize = 18 label = "  It should be hidden!  " ];
 
-    node[shape=record]
-    b_yn [label="<f0> no |<f1> yes" shape = Mrecord style = filled];
-
-    a_no -> b_yn;
-    b_yn:f1 -> a_no [ style = dotted constraint = true labeljust = "l" penwidth = 0.5 label = "  consider the more specific object"];
-
-    b_no [shape = "box" shape = box3d fontsize = 18 label = "  Sounds like the right place!  " ];
-
-    b_yn:f0 -> b_no;
+    a_yn:f0  -> yes
+    a_yn:f1  -> no
 }

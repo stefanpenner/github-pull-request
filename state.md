@@ -297,6 +297,6 @@ Save button + resume (navigate away and come back)
 Async + Latency + Error
 
 - [x] where should the state live
-- [ ] where should the action be handled
-- [ ] should the state be hidden
-- [ ] button state machine
+- [x] where should the action be handled
+- [x] should the state be hidden
+- [x] button state machine
