@@ -1,0 +1,22 @@
+digraph ethane  {
+
+    a [ shape = "box" shape = box label = "are you an apple ?" ];
+    b [ shape = "box" shape = box label = "I don't believe you" ];
+    c [ shape = "box" shape = box label = "more reasonable,\n but are you red?" ];
+
+    a -> yn1;
+
+    node[shape=record]
+    yn1 [label="<f0> Yes|<f1> No" shape = Mrecord color = grey];
+    yn1:f0 -> b;
+    yn1:f1 -> c;
+
+    node[shape=record]
+    yn2 [label="<f0> Yes|<f1> No" shape = Mrecord color = grey];
+    yn2:f0 -> a;
+    yn2:f1 -> b;
+
+    c -> yn2;
+
+    c -> a;
+}

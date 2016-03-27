@@ -1,0 +1,224 @@
+# Where does your state belong
+
+
+
+- State that belongs in URL (search, then drill into result #3)
+  - where you are host `/users/1`
+  - refinement of where you are `?search`
+- State that belongs in state services (draft email, then start a new draft)
+- State that belongs in shared models
+  - Many components dealing with various aspects of some complex concern (i.e.,  car configurator)
+- Typical persisted state (CRUD)
+  - Add a new record via createRecord or E.Object.create({}) (draft -> real)
+    - --> Do we have to bring up e-d?
+
+
+1. Stef comes up with "master list of state issues"
+2. Mike makes first pass at 20-minute chunks
+  1. --> THE PROBLEMS
+3. M+S design particulars of failing cases
+  1. S --> ADVISED BEST PRACTICE
+  2. S --> The "where does my state belong" decision tree
+    1. "The four questions"
+4. Stef - History of why people hit these problems
+  1. Mike suggestion - time-box 5 minutes for "academic stuff"
+5. Mike builds API to create state problems
+
+
+**TODO mike - design an example that gets us to PR view ASAP**
+
+**TODO stef - finish the comprehensive list of state cases we wish to cover**
+
+1. intro (build the base UI), this lets people "catch up"
+2. introduce problem/solution (scenario/example) of state-full stuff.
+
+lets not deal with real github for this example, rather your or my or our API.
+
+We can provide said api at mikes-api.herokuapp.com, or run locally etc.
+
+Ya firebase would work, that we we can create "simulations", and test the UI in those cases.
+
+Yes, i think we can assume some basic amount, I think ^^ can actually be done pretty intuitively. Do you think this can work into your larger deck, for the jazoon thing?
+
+
+/// scratching down my thoughts, hoping to coalesce them into some cohesive narrative. 
+
+Describe the problem, so the solution is sufficiently compelling.
+
+## Types of State vs ownership
+
+- Location
+  - urls/query params
+- Visual (tied to the UI session)
+  - checked/unchecked
+  - drafts that can be lost between
+- persistent
+  - who owns
+
+### State Owners (this is how we can see where it belongs, or what we need to create to hold onto it)
+
+- same as parent/owner
+- different as parent/owner
+- think ajax
+
+## where to put state
+
+the entity which knows exactly enough, but not to much.
+
+if we put everything in the application route, or as a global. Sad things will happen.
+
+- can't have N things sharing said state
+
+If we put everything in the leaves, every leaf needs to know about every other leaf.
+
+- complexity explodes
+
+DDAU can sometimes encourage global handlers, but really that is forcing the global system to understand minutiae it should not be concerned with. As an application grows this becomes unwieldy. This doesn't mean we should DDAU is bad, on the contrary DDAU is part of the solution, the next part though is knowing where to hold the state, and where to handle the action.
+
+# list progression of state based stuff
+
+## questions to ask
+
+- who owns the state
+- how long does the state live
+- what life-cycles does the state go through
+
+## state related scenarios
+
+- **PR page URL (easy intro)**
+  - forward/back from conversation/commits/files ~is~ was totally fucked
+  - ember "just works" 
+- **comment box ephemeral state (preserve old state when navigating)**
+  - one approach is state services, but requires object identity 
+    - should we implement by hand first, discuss the problems, then use state-service? or..
+    - Github pull request check boxes
+    - longform (multi-stage) + intermittent connectivit
+- ASYNC + Latency
+  - all requests can be:
+    - "Instant save" that takes ~0ms
+    - "Short save" with spinner that takes 1500ms
+    - "Long save" that takes 30000ms
+  - Some requets can be extremely long
+  - distributed systems fail, how do we inform the user.
+- **ASYNC + Plan interference**
+  - clicking the save button, is actually somewhat complicated (latency, errors etc)
+    - show the problems
+    - show state diagram (merely to hint at the complexity)
+    - solutions:
+      - ALWAYS provide feedback (disable button, loading...)
+      - ALWAYS be sure to use then(...) catch(...) finally(...)
+    - A wild plan interference occurs (high latency, user navigates away before the submit completes)
+      - demonstrate problem
+      - describe problem
+    - solutions
+  - requests that pile up / out of order (unsure how best in this demo to demonstrate this)
+    - cancel/ignore intermediate requests
+    - throttle
+    - cancel/ignore side-affects
+- Async + Collaboration
+  - last write wins (poor mans) (pro/con)
+    - displaying who is actively participating can sometimes be enough to deal with this issue. Humans are relatively good at conflict resolution <--- fixes huge amount of problems, with fairly low tech cost (also allows easying into true real time)
+  - checkin/checkout version ID, (you can only commit if you checkout version is === backend version, otherwise someone else beat you to it, and something is in conflict) Github just yells at you, and tells your to try again....
+  - high fedility context specific sync (OT)
+
+### other scenarios
+
+- routes
+  - parent/child routes (modelFor usage)
+- actions templates -> components -> routes
+- contextual components
+- 
+
+
+
+######
+
+
+State, how to/when to and when not to deal with it is a fairly blurred topic.
+We have attempted to put together a rough strategy to applying best practices.
+
+These will include:
+
+- how to handle it with the least effort (or when to avoid it entirely)
+- patterns and tools to help
+- a basis
+
+Template for deciding where state goes:
+
+- What is the state
+- Who does it affect
+- How many instances or variations of it occure?
+- How is it used
+- Where should it it live
+
+Scenarios
+
+URL (Example)
+  - what is the state:
+    - location
+
+  - Who does it affect:
+    - current user
+    - other users who have been shared the the URL
+
+  - How many instances or variations of it occure?
+    - typically once (only 1 URL bar) yes yes iframes etc... but that is hard :P
+
+ - How is it used
+    - navigation (visiting/transitioning/reloading/back button)
+    - sharing of navigation
+
+  - How long does it live
+    - the state lives for the duration of the app
+    - the url itself lives longer then the app
+
+  - Where should it live
+    - router + location service
+      - 1 per app
+
+Comment in comment box
+
+  - What is the state:
+    the draft comment
+
+  - Who does it affect:
+    the current user
+
+  - How long should it live:
+    until the user saves or discards the comment, or unloads the pull request
+    (memory management) or logs out (which causes the pull request to be
+    unloaded)
+
+  - Where should it live?
+    <lesson>
+      - if it was on a global
+        - everything on that page would be aware of it (smell, especially as the app grows)
+        - if we had more then 1 comment draft, they may run into each other (or the data structure would need to be more advnace)
+        - it wont be automatically released when its dependent object gets released
+      - if it was on the comment component
+        - it would not surive navigation to/from the associated pull request
+      - if it lived on the pull request
+        - it would live as long as the pull request was around ✓
+        - it wouldn't leak into other pull requests ✓
+        - it doesn't leak into the global state of the world ✓
+        - if we have multiple comment place, it may collide on the pull-request ☓
+          - WeakMap (or ember-state-services) address ^ concern
+
+
+Async + Latency
+
+loading templates
+link-to
+  - disabled/active/loading states (built-in and awesome )
+
+Save button (easy example):
+  - nothing to save -> something to save -> [ click ] -> pending save -> completed save
+
+  - What is the state:
+    isSaving [ true |false ]
+
+Save button + resume (navigate away and come back)
+
+
+
+Async + Latency + Error

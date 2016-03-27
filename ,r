@@ -1,0 +1,30 @@
+digraph ethane  {
+    labelloc="t";
+    label="\nwhere should state live given an object operating on state\n\n (component doing an ajax) \n\n";
+
+    ratio = 0.5;
+   node[fontname="a song for jennifer"];
+    a_yes -> a      [ style = dotted constraint = false penwidth = 0.5];
+    b_yn:f0 -> a_no [ style = dotted constraint = false penwidth = 0.5 label = "consider a more specific object" splines=straight];
+
+    a [ shape = "box" shape = box label = "does the state live longer?" ];
+    a_yes [ shape = "box" shape = box label = "consider the parent" ];
+    a_no  [ shape = "box" shape = box label = "is there a more specific object?" ];
+
+    a -> a_yn;
+
+    node[shape=record]
+    a_yn [label="<f0> Yes|<f1> No" shape = Mrecord style = filled ];
+    a_yn:f0 -> a_yes;
+    a_yn:f1 -> a_no;
+
+    a_no -> b_yn;
+
+    node[shape=record]
+    b_yn [label="<f0> Yes|<f1> No" shape = Mrecord style = filled];
+    b_yn:f1 -> b_no [ style = bold ];
+
+
+    b_no [shape = "box" shape = box3d label = "Sounds like the right place to store the state!" ];
+
+}
